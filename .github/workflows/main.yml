@@ -16,17 +16,10 @@ jobs:
         echo Downloading .NET Framework 4.7.2 installer...
         curl -L -o NDP472-DevPack-ENU.exe "https://drive.google.com/uc?export=download&id=1Az1a3KTD7kpKjce32tnouUum95WZVsKb"
 
-    - name: Debug Environment
-      run: |
-        echo "Current Directory:"
-        pwd
-        echo "Files in Directory:"
-        dir
-
     - name: Install .NET Framework 4.7.2
       run: |
         echo Installing .NET Framework 4.7.2...
-        .\NDP472-DevPack-ENU.exe /quiet /norestart
+        .\MyDotnetApp\.github\NDP472-DevPack-ENU.exe /quiet /norestart
 
     - name: Create Dotnet App
       run: dotnet new mvc --name MyDotnetApp --output .

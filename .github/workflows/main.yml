@@ -1,0 +1,41 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download .NET Framework 4.7.2 Installer
+      run: |
+        echo Downloading .NET Framework 4.7.2 installer from Google Drive...
+        curl -L -o NDP472-DevPack-ENU.exe "https://drive.google.com/uc?export=download&id=1Az1a3KTD7kpKjce32tnouUum95WZVsKb"
+
+    - name: Install .NET Framework 4.7.2
+      run: |
+        echo Installing .NET Framework 4.7.2...
+        .\\NDP472-DevPack-ENU.exe /quiet /norestart
+
+    - name: Create Dotnet App
+      run: dotnet new mvc --name MyDotnetApp --output .
+
+  push:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Commit and Push
+      run: |
+        git config --global user.name "oc-2"
+        git config --global user.email "185859974+oc-2@users.noreply.github.com"
+        git add .
+        git commit -m "Updated: $(date -u +"%D %T %Z")" --allow-empty
+        git push origin HEAD:main

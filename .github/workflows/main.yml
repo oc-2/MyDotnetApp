@@ -11,16 +11,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Check OS Version and Architecture
+      - name: Check OS and Architecture
         run: |
           systeminfo
-          echo %PROCESSOR_ARCHITECTURE%
+          echo Processor Architecture: %PROCESSOR_ARCHITECTURE%
 
-      - name: Check Installed .NET Versions
-        run: reg query "HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP" /s
+      - name: Check Installed .NET Framework Versions
+        run: |
+          reg query "HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP" /s
 
       - name: Download .NET Framework 4.7.2 Installer
-        run: curl -L -o "${{ github.workspace }}\\NDP472-DevPack-ENU.exe" "https://download.visualstudio.microsoft.com/download/pr/d0c6a9a4-35a3-4f8c-94e8-83a20de190e7/7E798D56A36BB5A34DFAF2A9D5915FD49AB41DE83F4C57C8BABB5F76D5C9E7DF/ndp472-devpack-enu.exe"
+        run: |
+          curl -L -o "${{ github.workspace }}\\NDP472-DevPack-ENU.exe" "https://go.microsoft.com/fwlink/?linkid=863262"
+
+      - name: Verify Installer
+        run: |
+          dir "${{ github.workspace }}\\NDP472-DevPack-ENU.exe"
 
       - name: Install .NET Framework 4.7.2
         shell: pwsh

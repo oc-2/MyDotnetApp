@@ -22,7 +22,7 @@ jobs:
         if (!(Test-Path .\NDP472-DevPack-ENU.exe)) {
         Write-Error "Installer not found in the current directory!"
         exit 1
-       }
+        }
         echo Installer file found.
 
     - name: Install .NET Framework 4.7.2

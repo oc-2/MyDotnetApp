@@ -23,9 +23,10 @@ jobs:
         curl -L -o "${{ github.workspace }}\\NDP472-DevPack-ENU.exe" "https://download.visualstudio.microsoft.com/download/pr/d0c6a9a4-35a3-4f8c-94e8-83a20de190e7/7E798D56A36BB5A34DFAF2A9D5915FD49AB41DE83F4C57C8BABB5F76D5C9E7DF/ndp472-devpack-enu.exe"
 
     - name: Install .NET Framework 4.7.2
+      shell: cmd
       run: |
         echo Installing .NET Framework 4.7.2...
-        "${{ github.workspace }}\\NDP472-DevPack-ENU.exe" /quiet /norestart
+        "%GITHUB_WORKSPACE%\\NDP472-DevPack-ENU.exe" /quiet /norestart
 
     - name: Create Dotnet App
       run: dotnet new mvc --name MyDotnetApp --output .

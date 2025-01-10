@@ -13,20 +13,29 @@ jobs:
 
     - name: Download .NET Framework 4.7.2 Installer
       run: |
-        echo Downloading .NET Framework 4.7.2 installer from Google Drive...
+        echo Downloading .NET Framework 4.7.2 installer...
         curl -L -o NDP472-DevPack-ENU.exe "https://drive.google.com/uc?export=download&id=1Az1a3KTD7kpKjce32tnouUum95WZVsKb"
+
+    - name: Verify Installer
+      run: |
+        echo Verifying installer file...
+        if (!(Test-Path .\NDP472-DevPack-ENU.exe)) {
+          Write-Error "Installer not found in the current directory!"
+          exit 1
+        }
+        echo Installer file found.
 
     - name: Install .NET Framework 4.7.2
       run: |
         echo Installing .NET Framework 4.7.2...
-        .\\NDP472-DevPack-ENU.exe /quiet /norestart
+        .\NDP472-DevPack-ENU.exe /quiet /norestart
 
     - name: Create Dotnet App
       run: dotnet new mvc --name MyDotnetApp --output .
 
   push:
-    needs: build
     runs-on: ubuntu-latest
+    needs: build
 
     steps:
     - name: Checkout code

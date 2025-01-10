@@ -17,22 +17,22 @@ jobs:
           echo Processor Architecture: %PROCESSOR_ARCHITECTURE%
 
       - name: Check Installed .NET Framework Versions
-        run: |
-          reg query "HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP" /s
+        run: reg query "HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP" /s
 
       - name: Download .NET Framework 4.7.2 Installer
-        run: |
-          curl -L -o "${{ github.workspace }}\\NDP472-DevPack-ENU.exe" "https://go.microsoft.com/fwlink/?linkid=863262"
+        run: curl -L -o "${{ github.workspace }}\\NDP472-DevPack-ENU.exe" "https://go.microsoft.com/fwlink/?linkid=863262"
 
       - name: Verify Installer
-        run: |
-          dir "${{ github.workspace }}\\NDP472-DevPack-ENU.exe"
+        run: dir "${{ github.workspace }}\\NDP472-DevPack-ENU.exe"
 
       - name: Install .NET Framework 4.7.2
         shell: pwsh
         run: |
           echo "Installing .NET Framework 4.7.2..."
           Start-Process -FilePath "${{ github.workspace }}\\NDP472-DevPack-ENU.exe" -ArgumentList "/quiet", "/norestart" -NoNewWindow -Wait
+
+      - name: Delete Installer File
+        run: if exist "${{ github.workspace }}\\NDP472-DevPack-ENU.exe" del "${{ github.workspace }}\\NDP472-DevPack-ENU.exe"
 
       - name: Create Dotnet App
         run: dotnet new mvc --name MyDotnetApp --output .

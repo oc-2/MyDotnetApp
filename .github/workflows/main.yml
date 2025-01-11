@@ -11,29 +11,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Check OS and Architecture
-        run: |
-          systeminfo
-          echo Processor Architecture: %PROCESSOR_ARCHITECTURE%
-
-      - name: Check Installed .NET Framework Versions
-        run: reg query "HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP" /s
-
-      - name: Download .NET Framework 4.7.2 Installer
-        run: curl -L -o "${{ github.workspace }}\\NDP472-DevPack-ENU.exe" "https://go.microsoft.com/fwlink/?linkid=874338"
-
-      - name: Verify Installer
-        run: dir "${{ github.workspace }}\\NDP472-DevPack-ENU.exe"
-
-      - name: Install .NET Framework 4.7.2
-        shell: pwsh
-        run: |
-          echo "Installing .NET Framework 4.7.2..."
-          Start-Process -FilePath "${{ github.workspace }}\\NDP472-DevPack-ENU.exe" -ArgumentList "/quiet", "/norestart" -NoNewWindow -Wait
-
-      - name: Delete Installer File
-        shell: pwsh
-        run: if (Test-Path "D:\a\MyDotnetApp\MyDotnetApp\NDP472-DevPack-ENU.exe") { Remove-Item "D:\a\MyDotnetApp\MyDotnetApp\NDP472-DevPack-ENU.exe" -Force }
+      - name: Set up Dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '4.7.2'
+          cache: true
 
       - name: Create Dotnet App
         run: dotnet new mvc --name MyDotnetApp --output ${{ github.workspace }}

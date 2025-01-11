@@ -15,7 +15,6 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '5.0.x'
-          cache: true
 
       - name: Create Dotnet App
         run: dotnet new mvc --name MyDotnetApp --output ${{ github.workspace }}

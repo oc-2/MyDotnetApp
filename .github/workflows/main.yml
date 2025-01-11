@@ -35,8 +35,7 @@ jobs:
       - name: Check Installed .NET Framework Versions
         run: reg query "HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP" /s
 
-      - name: Create Dotnet App
-        run: dotnet new mvc --name MyDotnetApp --output ${{ github.workspace }}
+      - run: dotnet add package RabbitMQ.Client --framework net9.0
 
       - name: Commit and Push
         env:

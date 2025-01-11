@@ -36,20 +36,14 @@ jobs:
         run: if (Test-Path "D:\a\MyDotnetApp\MyDotnetApp\NDP472-DevPack-ENU.exe") { Remove-Item "D:\a\MyDotnetApp\MyDotnetApp\NDP472-DevPack-ENU.exe" -Force }
 
       - name: Create Dotnet App
-        run: dotnet new mvc --name MyDotnetApp --output .
-
-  push:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+        run: dotnet new mvc --name MyDotnetApp --output ${{ github.workspace }}
 
       - name: Commit and Push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.name "oc-2"
           git config --global user.email "185859974+oc-2@users.noreply.github.com"
-          git add .
-          git commit -m "Updated: $(date -u +"%D %T %Z")" --allow-empty
+          git add -A
+          git commit -m "Add dotnet app" --allow-empty
           git push origin HEAD:main

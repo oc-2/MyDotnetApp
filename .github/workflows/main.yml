@@ -19,8 +19,8 @@ jobs:
       - name: Check Installed .NET Framework Versions
         run: reg query "HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP" /s
 
-        - name: Download .NET Framework 4.7.2 Installer
-          run: curl -L -o "${{ github.workspace }}\\NDP472-DevPack-ENU.exe" "https://drive.google.com/uc?export=download&id=1Az1a3KTD7kpKjce32tnouUum95WZVsKb"
+      - name: Download .NET Framework 4.7.2 Installer
+        run: curl -L -o "${{ github.workspace }}\\NDP472-DevPack-ENU.exe" "https://drive.google.com/uc?export=download&id=1Az1a3KTD7kpKjce32tnouUum95WZVsKb"
 
       - name: Verify Installer
         run: dir "${{ github.workspace }}\\NDP472-DevPack-ENU.exe"

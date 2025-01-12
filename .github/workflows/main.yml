@@ -35,6 +35,9 @@ jobs:
       - name: Check Installed .NET Framework Versions
         run: reg query "HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP" /s
 
+      - name: Create Dotnet Webapp
+        run: dotnet new webapp --name MyDotnetApp --output .
+
       - run: dotnet add package RabbitMQ.Client --framework net9.0
 
       - name: Commit and Push
